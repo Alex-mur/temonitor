@@ -44,4 +44,10 @@ dependencies {
 
     //Material
     implementation "com.google.android.material:material:1.2.0-alpha04"
+
+    //For timestamp
+    implementation "com.jakewharton.threetenabp:threetenabp:1.2.1"
+
+    //Paper
+    implementation 'io.paperdb:paperdb:2.6'
 }

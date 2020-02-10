@@ -3,6 +3,7 @@ package ga.justdevelops.temonitorv2
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import ga.justdevelops.temonitorv2.ui.main.MainFragment
+import io.paperdb.Paper
 
 class MainActivity : AppCompatActivity() {
 

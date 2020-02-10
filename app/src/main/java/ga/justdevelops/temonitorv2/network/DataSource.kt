@@ -1,8 +1,9 @@
 package ga.justdevelops.temonitorv2.network
 
+import ga.justdevelops.temonitorv2.entity.Sensor
 import kotlinx.coroutines.Deferred
 
 interface DataSource {
 
-    suspend fun getSensorsData(ipAddr: String, ipPort: String): Deferred<List<String>>
+    suspend fun getSensorsData(address: String): Deferred<List<Sensor>>
 }

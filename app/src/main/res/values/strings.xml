@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">TEMonitor</string>
+    <string name="sensor_name_default_text">sensor</string>
+    <string name="sensor_value_default_text">--.-</string>
+    <string name="btn_save">Save</string>
+    <string name="btn_cancel">Cancel</string>>
 </resources>

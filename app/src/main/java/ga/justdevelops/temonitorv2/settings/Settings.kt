@@ -1,8 +1,14 @@
 package ga.justdevelops.temonitorv2.settings
 
+import ga.justdevelops.temonitorv2.entity.Sensor
+
 interface Settings {
 
-    fun setSensorsNames(names: List<String>)
+    fun saveSensors(sensors: List<Sensor>)
 
-    fun getSensorsNames(): List<String>?
+    fun saveDeviceAddress(address: String)
+
+    fun getDeviceAddress(): String?
+
+    fun getSensors(): List<Sensor>?
 }
