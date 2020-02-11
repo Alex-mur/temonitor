@@ -5,5 +5,5 @@ import kotlinx.coroutines.Deferred
 
 interface DataSource {
 
-    suspend fun getSensorsData(address: String): Deferred<List<Sensor>>
+    suspend fun getSensorsData(address: String): Deferred<List<String>>
 }

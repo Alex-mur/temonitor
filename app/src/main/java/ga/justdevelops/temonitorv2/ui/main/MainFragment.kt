@@ -1,7 +1,6 @@
 package ga.justdevelops.temonitorv2.ui.main
 
 import android.app.AlertDialog
-import android.content.DialogInterface
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -9,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.FrameLayout
-import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -99,7 +97,7 @@ class MainFragment : Fragment() {
             .setTitle("Rename Sensor_$id: $oldName")
             .setView(input)
             .setPositiveButton(getString(R.string.btn_save)) { dialog, _ ->
-                viewModel.changeSensorName(id, input.text.toString())
+                viewModel.renameSensor(id, input.text.toString())
                 dialog.dismiss()
             }
             .setNeutralButton(getString(R.string.btn_cancel)) { dialog, _ ->

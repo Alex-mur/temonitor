@@ -1,12 +1,9 @@
 package ga.justdevelops.temonitorv2.network
 
-import ga.justdevelops.temonitorv2.entity.Sensor
-import ga.justdevelops.temonitorv2.fromOffsetDateTime
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
-import org.threeten.bp.OffsetDateTime
 import java.io.BufferedReader
 import java.io.InputStream
 import java.io.InputStreamReader
@@ -16,7 +13,7 @@ import java.net.URLConnection
 
 class TeMonitorWebDataSource: DataSource {
 
-    override suspend fun getSensorsData(address: String): Deferred<List<Sensor>> {
+    override suspend fun getSensorsData(address: String): Deferred<List<String>> {
         return CoroutineScope(Dispatchers.IO).async {
             var pageData = ""
             val targetURL = "http://" + address + "/tiny.htm"
@@ -31,7 +28,7 @@ class TeMonitorWebDataSource: DataSource {
             br.close()
             input.close()
 
-            val result = ArrayList<Sensor>()
+            val result = ArrayList<String>()
 
             var temp = pageData
                 .replace(" ", "")
@@ -39,7 +36,7 @@ class TeMonitorWebDataSource: DataSource {
                 .split("</BR>")
 
             for (i in 0..7) {
-                result.add(Sensor(i, "Sensor_$i", temp[i], fromOffsetDateTime(OffsetDateTime.now())))
+                result.add(temp[i])
             }
 
             result
