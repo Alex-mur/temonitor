@@ -3,5 +3,12 @@
     <string name="sensor_name_default_text">sensor</string>
     <string name="sensor_value_default_text">--.-</string>
     <string name="btn_save">Save</string>
-    <string name="btn_cancel">Cancel</string>>
+    <string name="btn_cancel">Cancel</string>
+    <string name="ti_address_hint">ip address and port of TE-monitor device</string>
+    <string name="btn_set_address_text">Apply</string>
+    <string name="address_input_error_hint">Invalid address. See examples</string>
+    <string name="edit_address_examples">Examples: 192.168.0.15:80 , te.mywebserver.orgg:23564</string>
+    <string name="sensor_date_label">Updated:</string>
+    <string name="sensor_date_value_default">no data</string>
+    >
 </resources>

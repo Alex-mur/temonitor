@@ -23,43 +23,52 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     private val dataSource: DataSource = TeMonitorWebDataSource()
     private val settings: Settings = PaperSettings(application)
     private val sensorsList = MutableLiveData<List<Sensor>>()
-    private val updatingTimer: Timer = Timer()
-    private val updatingTask: TimerTask = object: TimerTask() {
-        override fun run() {
-            updateSensorsData()
-        }
-    }
+    private val isShowEditAddressDialog = MutableLiveData<Boolean>()
+    private lateinit var updatingTimer: Timer
+    private lateinit var updatingTask: TimerTask
 
 
     fun startSensorsDataUpdating() {
-
-        //for test
-        //setDeviceAddress("91.215.88.136:65002")
-
-
         getSavedSensorsData()
+        updatingTimer = Timer()
+        updatingTask = object: TimerTask() {
+            override fun run() {
+                updateSensorsData()
+            }
+        }
         updatingTimer.schedule(updatingTask, 2000, 60000)
     }
 
+    fun stopSensorsUpdating() {
+        updatingTimer.cancel()
+    }
+
     fun renameSensor(id: Int, newName: String) {
-        var sensors = sensorsList.value
+        val sensors = sensorsList.value
         sensors?.find { it.id == id }?.name = newName
         sensorsList.postValue(sensors)
         settings.saveSensors(sensors!!)
     }
 
-    fun getSensorsData(): LiveData<List<Sensor>> = sensorsList
+    fun getSensorsList(): LiveData<List<Sensor>> = sensorsList
 
     fun setDeviceAddress(address:String) {
         settings.saveDeviceAddress(address)
+        updateSensorsData()
+        isShowEditAddressDialog.postValue(false)
     }
+
+    fun onSettingsBtnPressed() {
+        isShowEditAddressDialog.postValue(true)
+    }
+
+    fun getIsShowEditAddressDialog(): LiveData<Boolean> = isShowEditAddressDialog
 
     private fun updateSensorsData() {
         CoroutineScope(Dispatchers.Main).launch {
             try {
                 settings.getDeviceAddress()?.let { address ->
                     dataSource.getSensorsData(address).await().let { values ->
-                        val currentDate = fromOffsetDateTime(OffsetDateTime.now())
                         sensorsList.value?.let { sensors ->
                             sensorsList.postValue(updateSensorsValues(sensors, values))
 
@@ -67,6 +76,10 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
                         settings.saveSensors(sensorsList.value!!)
                     }
+                } ?: run {
+                    isShowEditAddressDialog.value?.let {
+                        if (!it) isShowEditAddressDialog.postValue(true)
+                    } ?: isShowEditAddressDialog.postValue(true)
                 }
 
             } catch (e: Exception) {
@@ -105,5 +118,9 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             it.date = fromOffsetDateTime(OffsetDateTime.now())
         }
         return sensors
+    }
+
+    fun onEditAddressDialogDismissed() {
+
     }
 }

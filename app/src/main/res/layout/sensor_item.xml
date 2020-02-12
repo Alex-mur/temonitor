@@ -1,26 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="horizontal">
 
     <TextView
         android:id="@+id/sensor_name"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:text="@string/sensor_name_default_text"
-        android:textSize="30sp"
-        android:gravity="center"
-        android:layout_weight=".3"/>
+        android:textSize="34sp"
+        android:gravity="center_vertical"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@id/guide_start"
+        app:layout_constraintEnd_toStartOf="@id/guide_value"/>
 
     <TextView
         android:id="@+id/sensor_value"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:text="@string/sensor_value_default_text"
+        android:textSize="34sp"
+        android:gravity="center"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/guide_value"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guide_value"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/sensor_value_default_text"
-        android:textSize="30sp"
-        android:gravity="center"
-        android:layout_weight=".7"/>
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.7"/>
 
-</LinearLayout>
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guide_start"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.02"/>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/sensor_date_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="2dp"
+        android:text="@string/sensor_date_label"
+        android:textSize="10sp"
+        app:layout_constraintStart_toStartOf="@id/guide_start"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/sensor_date_value"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginBottom="2dp"
+        android:ellipsize="end"
+        android:lines="1"
+        android:text="@string/sensor_date_value_default"
+        android:textSize="10sp"
+        app:layout_constraintStart_toEndOf="@id/sensor_date_label"
+        app:layout_constraintEnd_toEndOf="@id/guide_value"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

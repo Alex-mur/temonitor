@@ -9,11 +9,13 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.FrameLayout
 import android.widget.TextView
+import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import ga.justdevelops.temonitorv2.R
+import kotlinx.android.synthetic.main.main_fragment.*
 
-class MainFragment : Fragment() {
+class MainFragment : Fragment(), EditAddressDialogFragment.EditAddressListener {
 
     companion object {
         fun newInstance() = MainFragment()
@@ -22,6 +24,7 @@ class MainFragment : Fragment() {
     private lateinit var viewModel: MainViewModel
     private val sensorsViewList = ArrayList<FrameLayout>()
 
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -29,7 +32,6 @@ class MainFragment : Fragment() {
 
         val view = inflater.inflate(R.layout.main_fragment, container, false)
         findAllViews(view)
-        initListeners()
         return view
     }
 
@@ -50,13 +52,27 @@ class MainFragment : Fragment() {
         subscribeLiveData()
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initListeners()
+    }
+
     private fun initViewModel() {
         viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
+    }
+
+    override fun onResume() {
+        super.onResume()
         viewModel.startSensorsDataUpdating()
     }
 
+    override fun onPause() {
+        super.onPause()
+        viewModel.stopSensorsUpdating()
+    }
+
     private fun subscribeLiveData() {
-        viewModel.getSensorsData().observe(this, Observer { list ->
+        viewModel.getSensorsList().observe(this, Observer { list ->
             list.forEach {
                 if (it.value.isNotEmpty()) {
                     setSensorName(it.id, it.name)
@@ -68,6 +84,10 @@ class MainFragment : Fragment() {
                     disableSensor(it.id)
                 }
             }
+        })
+
+        viewModel.getIsShowEditAddressDialog().observe(this, Observer {
+            if (it) showChangeAddressDialog()
         })
     }
 
@@ -87,7 +107,9 @@ class MainFragment : Fragment() {
         sensorsViewList[id].findViewById<TextView>(R.id.sensor_value).text = value
     }
 
-    private fun setSensorDate(id: Int, date: String) {}
+    private fun setSensorDate(id: Int, date: String) {
+        sensorsViewList[id].findViewById<TextView>(R.id.sensor_date_value).text = date
+    }
 
     private fun showRenameSensorDialog(id: Int) {
         val oldName = sensorsViewList.get(id).findViewById<TextView>(R.id.sensor_name).text
@@ -113,5 +135,24 @@ class MainFragment : Fragment() {
                 true
             }
         }
+
+        iv_settings.setOnClickListener {
+            viewModel.onSettingsBtnPressed()
+        }
+    }
+
+    private fun showChangeAddressDialog() {
+        EditAddressDialogFragment().let {
+            it.setStyle(DialogFragment.STYLE_NORMAL, 0)
+            it.show(childFragmentManager, "")
+        }
+    }
+
+    override fun onAddressEdited(address: String) {
+        viewModel.setDeviceAddress(address)
+    }
+
+    override fun onEditAddressDialogDismissed() {
+        viewModel.onEditAddressDialogDismissed()
     }
 }

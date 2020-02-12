@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">TEMonitor</string>
+    <string name="address_input_error_hint">Недопустимый адрес. См. примеры</string>
+    <string name="btn_cancel">Отмена</string>
+    <string name="btn_save">Сохранить</string>
+    <string name="btn_set_address_text">Применить</string>
+    <string name="edit_address_examples">Например: 192.168.0.15:80 , te.mywebserver.orgg:23564</string>
+    <string name="sensor_name_default_text">сенсор</string>
+    <string name="sensor_value_default_text">--.-</string>
+    <string name="ti_address_hint">ip-адрес и порт устройства TE-monitor</string>
+</resources>
