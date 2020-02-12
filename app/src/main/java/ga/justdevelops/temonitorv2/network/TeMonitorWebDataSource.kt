@@ -16,7 +16,7 @@ class TeMonitorWebDataSource: DataSource {
     override suspend fun getSensorsData(address: String): Deferred<List<String>> {
         return CoroutineScope(Dispatchers.IO).async {
             var pageData = ""
-            val targetURL = "http://" + address + "/tiny.htm"
+            val targetURL = "http://$address/tiny.htm"
             val url = URL(targetURL)
             val con: URLConnection = url.openConnection()
             val input: InputStream = con.getInputStream()

@@ -125,11 +125,11 @@ class MainFragment : Fragment(), EditAddressDialogFragment.EditAddressListener {
     }
 
     private fun showRenameSensorDialog(id: Int) {
-        val oldName = sensorsViewList.get(id).findViewById<TextView>(R.id.tv_sensor_name).text
+        val oldName = sensorsViewList[id].findViewById<TextView>(R.id.tv_sensor_name).text
         val input = EditText(context)
 
         AlertDialog.Builder(context)
-            .setTitle("Rename Sensor_$id: $oldName")
+            .setTitle(getString(R.string.rename_sensor))
             .setView(input)
             .setPositiveButton(getString(R.string.btn_save)) { dialog, _ ->
                 viewModel.renameSensor(id, input.text.toString())

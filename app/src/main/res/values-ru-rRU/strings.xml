@@ -4,9 +4,13 @@
     <string name="address_input_error_hint">Недопустимый адрес. См. примеры</string>
     <string name="btn_cancel">Отмена</string>
     <string name="btn_save">Сохранить</string>
-    <string name="btn_set_address_text">Применить</string>
+    <string name="btn_set_address_text">Ok</string>
     <string name="edit_address_examples">Например: 192.168.0.15:80 , te.mywebserver.orgg:23564</string>
     <string name="sensor_name_default_text">сенсор</string>
     <string name="sensor_value_default_text">--.-</string>
-    <string name="ti_address_hint">ip-адрес и порт устройства TE-monitor</string>
+    <string name="ti_address_hint">address:port</string>
+    <string name="sensor_date_label">Обновлено:</string>
+    <string name="sensor_date_value_default">нет данных</string>
+    <string name="tv_connection_alert_text">Не удалось получить данные термометра. Проверьте подключение.</string>
+    <string name="tv_edit_address_description">Укажите адрес и http порт для подключения к устройству TE-MONITOR</string>
 </resources>

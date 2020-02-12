@@ -1,6 +1,7 @@
 package ga.justdevelops.temonitorv2.ui.main
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -54,9 +55,11 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     fun getSensorsList(): LiveData<List<Sensor>> = sensorsList
 
     fun setDeviceAddress(address:String) {
+        stopSensorsUpdating()
         isShowEditAddressDialog.postValue(false)
+        isShowConnectionAlert.postValue(false)
         settings.saveDeviceAddress(address)
-        updateSensorsData()
+        startSensorsDataUpdating()
     }
 
     fun onSettingsBtnPressed() {

@@ -4,7 +4,27 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
+def keystorePropertiesFile = rootProject.file("keystore.properties")
+def keystoreProperties = new Properties()
+keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+
 android {
+    signingConfigs {
+        debug {
+            storeFile file("$rootDir\\private\\temonitor.jks")
+            storePassword keystoreProperties['keystore_pass']
+            keyAlias keystoreProperties['key_alias']
+            keyPassword keystoreProperties['key_pass']
+        }
+        release {
+            storeFile file("$rootDir\\private\\temonitor.jks")
+            storePassword keystoreProperties['keystore_pass']
+            keyAlias keystoreProperties['key_alias']
+            keyPassword keystoreProperties['key_pass']
+        }
+    }
+
+
     compileSdkVersion 29
     buildToolsVersion "29.0.2"
     defaultConfig {
@@ -17,8 +37,13 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled false
+            shrinkResources true
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
+        debug {
+            signingConfig signingConfigs.debug
         }
     }
 }

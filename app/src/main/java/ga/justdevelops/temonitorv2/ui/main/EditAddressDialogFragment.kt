@@ -34,7 +34,7 @@ class EditAddressDialogFragment: DialogFragment() {
         dialog?.window?.let {
             val size = Point()
             it.windowManager?.defaultDisplay?.getSize(size)
-            it.setLayout(size.x, resources.getDimension(R.dimen.address_input_height).toInt())
+            it.setLayout(size.x, WindowManager.LayoutParams.WRAP_CONTENT)
             it.setGravity(Gravity.CENTER)
         }
     }

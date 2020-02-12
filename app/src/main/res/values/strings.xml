@@ -1,15 +1,17 @@
 <resources>
-    <string name="app_name">TEMonitor</string>
+    <string name="app_name">TE-Monitor</string>
     <string name="sensor_name_default_text">sensor</string>
     <string name="sensor_value_default_text">--.-</string>
     <string name="btn_save">Save</string>
     <string name="btn_cancel">Cancel</string>
-    <string name="ti_address_hint">ip address and port of TE-monitor device</string>
-    <string name="btn_set_address_text">Apply</string>
+    <string name="ti_address_hint">address:port</string>
+    <string name="btn_set_address_text">Ok</string>
     <string name="address_input_error_hint">Invalid address. See examples</string>
     <string name="edit_address_examples">Examples: 192.168.0.15:80 , te.mywebserver.orgg:23564</string>
     <string name="sensor_date_label">Updated:</string>
     <string name="sensor_date_value_default">no data</string>
     <string name="tv_connection_alert_text">Can\'t get data from device. Check connection.</string>
-    >
+    <string name="tv_edit_address_description">Set an address and http port of TE-MONITOR-V4 device</string>
+    <string name="tv_edit_address_title">Device address</string>
+    <string name="rename_sensor">Rename Sensor</string>
 </resources>
