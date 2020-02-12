@@ -10,5 +10,6 @@
     <string name="edit_address_examples">Examples: 192.168.0.15:80 , te.mywebserver.orgg:23564</string>
     <string name="sensor_date_label">Updated:</string>
     <string name="sensor_date_value_default">no data</string>
+    <string name="tv_connection_alert_text">Can\'t get data from device. Check connection.</string>
     >
 </resources>

@@ -59,6 +59,7 @@
         app:layout_constraintGuide_percent="0.7"/>
 
     <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tv_examples"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:gravity="center_vertical"

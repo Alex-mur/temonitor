@@ -89,6 +89,19 @@ class MainFragment : Fragment(), EditAddressDialogFragment.EditAddressListener {
         viewModel.getIsShowEditAddressDialog().observe(this, Observer {
             if (it) showChangeAddressDialog()
         })
+
+        viewModel.getIsShowConnectionAlert().observe(this, Observer {
+            if (it) showConnectionAlert()
+            else hideConnectionAlert()
+        })
+    }
+
+    private fun hideConnectionAlert() {
+        tv_connection_alert.visibility = View.GONE
+    }
+
+    private fun showConnectionAlert() {
+        tv_connection_alert.visibility = View.VISIBLE
     }
 
     private fun enableSensor(id: Int) {
@@ -100,19 +113,19 @@ class MainFragment : Fragment(), EditAddressDialogFragment.EditAddressListener {
     }
 
     private fun setSensorName(id: Int, name: String) {
-        sensorsViewList[id].findViewById<TextView>(R.id.sensor_name).text = name
+        sensorsViewList[id].findViewById<TextView>(R.id.tv_sensor_name).text = name
     }
 
     private fun setSensorValue(id: Int, value: String) {
-        sensorsViewList[id].findViewById<TextView>(R.id.sensor_value).text = value
+        sensorsViewList[id].findViewById<TextView>(R.id.tv_sensor_value).text = value
     }
 
     private fun setSensorDate(id: Int, date: String) {
-        sensorsViewList[id].findViewById<TextView>(R.id.sensor_date_value).text = date
+        sensorsViewList[id].findViewById<TextView>(R.id.tv_sensor_date_value).text = date
     }
 
     private fun showRenameSensorDialog(id: Int) {
-        val oldName = sensorsViewList.get(id).findViewById<TextView>(R.id.sensor_name).text
+        val oldName = sensorsViewList.get(id).findViewById<TextView>(R.id.tv_sensor_name).text
         val input = EditText(context)
 
         AlertDialog.Builder(context)
@@ -130,7 +143,7 @@ class MainFragment : Fragment(), EditAddressDialogFragment.EditAddressListener {
 
     private fun initListeners() {
         for (i in 0..7) {
-            sensorsViewList[i].findViewById<TextView>(R.id.sensor_name).setOnLongClickListener {
+            sensorsViewList[i].findViewById<TextView>(R.id.tv_sensor_name).setOnLongClickListener {
                 showRenameSensorDialog(i)
                 true
             }
@@ -150,9 +163,5 @@ class MainFragment : Fragment(), EditAddressDialogFragment.EditAddressListener {
 
     override fun onAddressEdited(address: String) {
         viewModel.setDeviceAddress(address)
-    }
-
-    override fun onEditAddressDialogDismissed() {
-        viewModel.onEditAddressDialogDismissed()
     }
 }

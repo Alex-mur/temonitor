@@ -24,6 +24,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     private val settings: Settings = PaperSettings(application)
     private val sensorsList = MutableLiveData<List<Sensor>>()
     private val isShowEditAddressDialog = MutableLiveData<Boolean>()
+    private val isShowConnectionAlert = MutableLiveData<Boolean>()
     private lateinit var updatingTimer: Timer
     private lateinit var updatingTask: TimerTask
 
@@ -53,9 +54,9 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     fun getSensorsList(): LiveData<List<Sensor>> = sensorsList
 
     fun setDeviceAddress(address:String) {
+        isShowEditAddressDialog.postValue(false)
         settings.saveDeviceAddress(address)
         updateSensorsData()
-        isShowEditAddressDialog.postValue(false)
     }
 
     fun onSettingsBtnPressed() {
@@ -63,6 +64,8 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun getIsShowEditAddressDialog(): LiveData<Boolean> = isShowEditAddressDialog
+
+    fun getIsShowConnectionAlert(): LiveData<Boolean> = isShowConnectionAlert
 
     private fun updateSensorsData() {
         CoroutineScope(Dispatchers.Main).launch {
@@ -75,6 +78,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                         } ?: sensorsList.postValue(createNewSensorsList(values))
 
                         settings.saveSensors(sensorsList.value!!)
+                        isShowConnectionAlert.postValue(false)
                     }
                 } ?: run {
                     isShowEditAddressDialog.value?.let {
@@ -83,7 +87,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                 }
 
             } catch (e: Exception) {
-
+                isShowConnectionAlert.postValue(true)
             }
         }
     }
@@ -118,9 +122,5 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             it.date = fromOffsetDateTime(OffsetDateTime.now())
         }
         return sensors
-    }
-
-    fun onEditAddressDialogDismissed() {
-
     }
 }

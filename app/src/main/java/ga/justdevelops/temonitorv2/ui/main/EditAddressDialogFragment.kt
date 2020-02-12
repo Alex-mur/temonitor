@@ -12,7 +12,6 @@ class EditAddressDialogFragment: DialogFragment() {
 
     interface EditAddressListener {
         fun onAddressEdited(address: String)
-        fun onEditAddressDialogDismissed()
     }
 
     private lateinit var editAddressListener: EditAddressListener
@@ -60,11 +59,4 @@ class EditAddressDialogFragment: DialogFragment() {
 
         } else return null
     }
-
-    override fun onDismiss(dialog: DialogInterface) {
-        super.onDismiss(dialog)
-        editAddressListener.onEditAddressDialogDismissed()
-    }
-
-
 }
