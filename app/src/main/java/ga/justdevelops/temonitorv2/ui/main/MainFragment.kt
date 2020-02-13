@@ -125,7 +125,6 @@ class MainFragment : Fragment(), EditAddressDialogFragment.EditAddressListener {
     }
 
     private fun showRenameSensorDialog(id: Int) {
-        val oldName = sensorsViewList[id].findViewById<TextView>(R.id.tv_sensor_name).text
         val input = EditText(context)
 
         AlertDialog.Builder(context)
@@ -155,7 +154,7 @@ class MainFragment : Fragment(), EditAddressDialogFragment.EditAddressListener {
     }
 
     private fun showChangeAddressDialog() {
-        EditAddressDialogFragment().let {
+        EditAddressDialogFragment.getInstance(viewModel.getCurrentDeviceAddress()).let {
             it.setStyle(DialogFragment.STYLE_NORMAL, 0)
             it.show(childFragmentManager, "")
         }

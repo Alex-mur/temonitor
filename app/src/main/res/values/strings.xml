@@ -11,7 +11,7 @@
     <string name="sensor_date_label">Updated:</string>
     <string name="sensor_date_value_default">no data</string>
     <string name="tv_connection_alert_text">Can\'t get data from device. Check connection.</string>
-    <string name="tv_edit_address_description">Set an address and http port of TE-MONITOR-V4 device</string>
+    <string name="tv_edit_address_description">Specify ip address or hostname and  http port of the TE-MONITOR-V4 device</string>
     <string name="tv_edit_address_title">Device address</string>
     <string name="rename_sensor">Rename Sensor</string>
 </resources>

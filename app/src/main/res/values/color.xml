@@ -60,4 +60,8 @@
     <color name="color_on_surface">#000000</color>
     <color name="color_on_error">#ffffff</color>
 
+    <color name="color_cold">#00A3D4</color>
+    <color name="color_hot">#FF4E18</color>
+
+
 </resources>

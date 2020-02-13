@@ -12,5 +12,7 @@
     <string name="sensor_date_label">Обновлено:</string>
     <string name="sensor_date_value_default">нет данных</string>
     <string name="tv_connection_alert_text">Не удалось получить данные термометра. Проверьте подключение.</string>
-    <string name="tv_edit_address_description">Укажите адрес и http порт для подключения к устройству TE-MONITOR</string>
+    <string name="tv_edit_address_description">Укажите имя хоста или ip-адрес и http порт устройства TE-MONITOR</string>
+    <string name="tv_edit_address_title">Адрес устройства</string>
+    <string name="rename_sensor">Переименовать сенсор</string>
 </resources>

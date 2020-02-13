@@ -62,6 +62,8 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         startSensorsDataUpdating()
     }
 
+    fun getCurrentDeviceAddress() = settings.getDeviceAddress()
+
     fun onSettingsBtnPressed() {
         isShowEditAddressDialog.postValue(true)
     }

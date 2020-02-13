@@ -1,6 +1,5 @@
 package ga.justdevelops.temonitorv2.ui.main
 
-import android.content.DialogInterface
 import android.graphics.Point
 import android.os.Bundle
 import android.view.*
@@ -9,6 +8,21 @@ import ga.justdevelops.temonitorv2.R
 import kotlinx.android.synthetic.main.edit_address_dialog_fragment.*
 
 class EditAddressDialogFragment: DialogFragment() {
+
+    companion object {
+        private const val DEVICE_ADDRESS = "DEVICE_ADDRESS"
+
+        fun getInstance(address: String?): EditAddressDialogFragment {
+            val dialog = EditAddressDialogFragment()
+            if (!address.isNullOrEmpty()) {
+                Bundle().let {
+                    it.putString(DEVICE_ADDRESS, address)
+                    dialog.arguments = it
+                }
+            }
+            return dialog
+        }
+    }
 
     interface EditAddressListener {
         fun onAddressEdited(address: String)
@@ -26,6 +40,9 @@ class EditAddressDialogFragment: DialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        arguments?.getString(DEVICE_ADDRESS)?.let {
+            et_address.setText(it)
+        }
         initListeners()
     }
 
