@@ -1,19 +1,29 @@
 package ga.justdevelops.temonitorv2.ui.main
 
+import android.animation.AnimatorInflater
+import android.animation.ObjectAnimator
 import android.app.AlertDialog
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import android.widget.EditText
 import android.widget.FrameLayout
 import android.widget.TextView
+import androidx.cardview.widget.CardView
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import ga.justdevelops.temonitorv2.R
+import ga.justdevelops.temonitorv2.fromOffsetDateTime
 import kotlinx.android.synthetic.main.main_fragment.*
+import kotlinx.coroutines.*
+import org.threeten.bp.OffsetDateTime
+import kotlin.concurrent.thread
+
 
 class MainFragment : Fragment(), EditAddressDialogFragment.EditAddressListener {
 
@@ -23,7 +33,6 @@ class MainFragment : Fragment(), EditAddressDialogFragment.EditAddressListener {
 
     private lateinit var viewModel: MainViewModel
     private val sensorsViewList = ArrayList<FrameLayout>()
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -72,16 +81,20 @@ class MainFragment : Fragment(), EditAddressDialogFragment.EditAddressListener {
     }
 
     private fun subscribeLiveData() {
-        viewModel.getSensorsList().observe(this, Observer { list ->
-            list.forEach {
-                if (it.value.isNotEmpty()) {
-                    setSensorName(it.id, it.name)
-                    setSensorValue(it.id, it.value)
-                    setSensorDate(it.id, it.date)
-                    enableSensor(it.id)
 
-                } else {
-                    disableSensor(it.id)
+        viewModel.getSensorsList().observe(this, Observer { list ->
+            CoroutineScope(Dispatchers.Main).launch {
+                list.forEach {
+                    if (it.value.isNotEmpty()) {
+                        withContext(Dispatchers.IO) {Thread.sleep(300)}
+                        startSwingAnimation(it.id)
+                        setSensorName(it.id, it.name)
+                        setSensorValue(it.id, it.value)
+                        setSensorDate(it.id, it.date)
+                        enableSensor(it.id)
+                    } else {
+                        disableSensor(it.id)
+                    }
                 }
             }
         })
@@ -94,6 +107,15 @@ class MainFragment : Fragment(), EditAddressDialogFragment.EditAddressListener {
             if (it) showConnectionAlert()
             else hideConnectionAlert()
         })
+    }
+
+    private fun startSwingAnimation(id: Int) {
+        val animation = AnimatorInflater.loadAnimator(context, R.animator.flipper)
+        sensorsViewList[id]
+            .let{
+                animation.setTarget(it)
+                animation.start()
+            }
     }
 
     private fun hideConnectionAlert() {

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">TEMonitor</string>
+    <string name="app_name">TE-Monitor</string>
     <string name="address_input_error_hint">Недопустимый адрес. См. примеры</string>
     <string name="btn_cancel">Отмена</string>
     <string name="btn_save">Сохранить</string>

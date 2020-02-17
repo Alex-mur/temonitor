@@ -106,4 +106,5 @@
     <dimen name="divider_height">1dp</dimen>
     <dimen name="address_input_margin">5dp</dimen>
     <dimen name="address_input_height">250dp</dimen>
+    <dimen name="decor_line_thickness">0.5dp</dimen>
 </resources>

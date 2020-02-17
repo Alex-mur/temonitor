@@ -73,24 +73,25 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     fun getIsShowConnectionAlert(): LiveData<Boolean> = isShowConnectionAlert
 
     private fun updateSensorsData() {
+
+        val currentAddress = settings.getDeviceAddress()
+        if(currentAddress == null &&
+            (isShowEditAddressDialog.value != null && !isShowEditAddressDialog.value!!)) {
+            isShowEditAddressDialog.postValue(true)
+            return
+        }
+
         CoroutineScope(Dispatchers.Main).launch {
             try {
-                settings.getDeviceAddress()?.let { address ->
-                    dataSource.getSensorsData(address).await().let { values ->
-                        sensorsList.value?.let { sensors ->
-                            sensorsList.postValue(updateSensorsValues(sensors, values))
+                dataSource.getSensorsData(currentAddress!!).await().let { values ->
+                    isShowEditAddressDialog.postValue(false)
+                    isShowConnectionAlert.postValue(false)
+                    sensorsList.value?.let { sensors ->
+                        sensorsList.postValue(updateSensorsValues(sensors, values))
 
-                        } ?: sensorsList.postValue(createNewSensorsList(values))
-
-                        settings.saveSensors(sensorsList.value!!)
-                        isShowConnectionAlert.postValue(false)
-                    }
-                } ?: run {
-                    isShowEditAddressDialog.value?.let {
-                        if (!it) isShowEditAddressDialog.postValue(true)
-                    } ?: isShowEditAddressDialog.postValue(true)
+                    } ?: sensorsList.postValue(createNewSensorsList(values))
+                    sensorsList.value?.let { settings.saveSensors(it) }
                 }
-
             } catch (e: Exception) {
                 isShowConnectionAlert.postValue(true)
             }

@@ -8,7 +8,7 @@
         </shape>
     </item>
 
-    <item android:left="0.5dp">
+    <item android:left="@dimen/decor_line_thickness">
         <shape android:shape="rectangle">
             <solid android:color="?colorSurface"/>
         </shape>
