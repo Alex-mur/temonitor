@@ -1,28 +1,22 @@
 package ga.justdevelops.temonitorv2.ui.main
 
+import android.animation.Animator
 import android.animation.AnimatorInflater
-import android.animation.ObjectAnimator
 import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.Animation
-import android.view.animation.AnimationUtils
 import android.widget.EditText
 import android.widget.FrameLayout
 import android.widget.TextView
-import androidx.cardview.widget.CardView
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import ga.justdevelops.temonitorv2.R
-import ga.justdevelops.temonitorv2.fromOffsetDateTime
 import kotlinx.android.synthetic.main.main_fragment.*
 import kotlinx.coroutines.*
-import org.threeten.bp.OffsetDateTime
-import kotlin.concurrent.thread
 
 
 class MainFragment : Fragment(), EditAddressDialogFragment.EditAddressListener {
@@ -33,12 +27,12 @@ class MainFragment : Fragment(), EditAddressDialogFragment.EditAddressListener {
 
     private lateinit var viewModel: MainViewModel
     private val sensorsViewList = ArrayList<FrameLayout>()
+    private val animations = ArrayList<Animator>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
         val view = inflater.inflate(R.layout.main_fragment, container, false)
         findAllViews(view)
         return view
@@ -110,12 +104,15 @@ class MainFragment : Fragment(), EditAddressDialogFragment.EditAddressListener {
     }
 
     private fun startSwingAnimation(id: Int) {
-        val animation = AnimatorInflater.loadAnimator(context, R.animator.flipper)
-        sensorsViewList[id]
-            .let{
-                animation.setTarget(it)
-                animation.start()
-            }
+        context?.let {
+            val animation = AnimatorInflater.loadAnimator(it, R.animator.flipper)
+            animations.add(animation)
+            sensorsViewList[id]
+                .let { sensorLayout ->
+                    animation.setTarget(sensorLayout)
+                    animation.start()
+                }
+        }
     }
 
     private fun hideConnectionAlert() {
@@ -144,6 +141,16 @@ class MainFragment : Fragment(), EditAddressDialogFragment.EditAddressListener {
 
     private fun setSensorDate(id: Int, date: String) {
         sensorsViewList[id].findViewById<TextView>(R.id.tv_sensor_date_value).text = date
+    }
+
+    override fun onDestroyView() {
+        animations.forEach {
+            it.cancel()
+            it.end()
+        }
+        animations.clear()
+
+        super.onDestroyView()
     }
 
     private fun showRenameSensorDialog(id: Int) {
